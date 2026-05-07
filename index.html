@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>App 名字（待定）V1 UX 原型</title>
+  <style>
+    :root {
+      --canvas: #edf2f7;
+      --phone: #f8fafc;
+      --surface: #ffffff;
+      --surface-soft: #f1f4f8;
+      --ink: #171b22;
+      --text: #303844;
+      --muted: #687381;
+      --faint: #98a1ad;
+      --line: #e3e7ee;
+      --primary: #164e63;
+      --primary-soft: #e3f2f6;
+      --tech: #3b82f6;
+      --tech-soft: #eaf2ff;
+      --warm: #d67a63;
+      --warm-soft: #fff0eb;
+      --info: #426784;
+      --shadow: 0 28px 80px rgba(21, 32, 44, 0.24);
+      --soft-shadow: 0 10px 32px rgba(21, 32, 44, 0.08);
+      --radius: 8px;
+      --phone-width: 390px;
+      color-scheme: light;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 28% 18%, rgba(214, 122, 99, 0.18), transparent 26%),
+        radial-gradient(circle at 72% 70%, rgba(59, 130, 246, 0.16), transparent 30%),
+        linear-gradient(135deg, #f8fafc 0%, var(--canvas) 52%, #e7eef7 100%);
+      font-size: 15px;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      color: inherit;
+    }
+
+    .stage {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+    }
+
+    .phone {
+      width: var(--phone-width);
+      height: 844px;
+      padding: 10px;
+      border-radius: 36px;
+      background: #111827;
+      box-shadow: var(--shadow);
+    }
+
+    .screen {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 28px;
+      background: var(--phone);
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 34px;
+      padding: 0 22px;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 18px 14px;
+    }
+
+    .brand {
+      min-width: 0;
+    }
+
+    .brand-title {
+      display: block;
+      overflow: hidden;
+      color: var(--ink);
+      font-size: 20px;
+      font-weight: 760;
+      letter-spacing: 0;
+      line-height: 1.2;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .brand-subtitle {
+      display: block;
+      margin-top: 3px;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.3;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .round-button {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 6px 20px rgba(21, 32, 44, 0.08);
+    }
+
+    .round-button svg,
+    .tab svg,
+    .send svg,
+    .pill-action svg {
+      width: 19px;
+      height: 19px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 16px 16px;
+      scroll-behavior: smooth;
+    }
+
+    .content::-webkit-scrollbar {
+      width: 0;
+    }
+
+    .panel {
+      display: none;
+      min-height: 100%;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .quiet-note {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      margin: 2px 0 14px;
+      padding: 10px 12px;
+      border: 1px solid rgba(59, 130, 246, 0.18);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(214, 122, 99, 0.06));
+      color: var(--info);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .quiet-note svg {
+      width: 16px;
+      height: 16px;
+      flex: 0 0 auto;
+      margin-top: 1px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .intro {
+      margin-bottom: 16px;
+    }
+
+    .intro h1,
+    .intro h2 {
+      margin: 0 0 8px;
+      color: var(--ink);
+      font-size: 25px;
+      letter-spacing: 0;
+      line-height: 1.18;
+    }
+
+    .intro p {
+      max-width: 320px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .prompt-strip {
+      display: flex;
+      gap: 8px;
+      margin: 0 -16px 18px;
+      padding: 0 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .prompt-strip::-webkit-scrollbar {
+      display: none;
+    }
+
+    .prompt {
+      min-width: 206px;
+      min-height: 72px;
+      padding: 12px;
+      border: 1px solid rgba(22, 78, 99, 0.16);
+      border-radius: 14px;
+      background: var(--surface);
+      box-shadow: var(--soft-shadow);
+      text-align: left;
+    }
+
+    .prompt strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--primary);
+      font-size: 12px;
+    }
+
+    .prompt span {
+      display: block;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .chat {
+      display: grid;
+      gap: 14px;
+      padding-bottom: 4px;
+    }
+
+    .message {
+      max-width: 88%;
+      font-size: 14px;
+      line-height: 1.62;
+    }
+
+    .message.user {
+      justify-self: end;
+      padding: 11px 13px;
+      border-radius: 18px 18px 4px 18px;
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 10px 28px rgba(22, 78, 99, 0.22);
+    }
+
+    .message.ai {
+      justify-self: start;
+      padding: 14px;
+      border: 1px solid rgba(227, 231, 238, 0.92);
+      border-radius: 18px 18px 18px 4px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--soft-shadow);
+      color: var(--text);
+    }
+
+    .message.ai strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .source-card {
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid rgba(59, 130, 246, 0.18);
+      border-radius: 14px;
+      background: linear-gradient(180deg, #f8fbff 0%, #edf6ff 100%);
+    }
+
+    .source-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 760;
+    }
+
+    .source-label svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .source-card p {
+      margin: 0 0 10px;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.52;
+    }
+
+    .source-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill-action,
+    .text-button {
+      display: inline-flex;
+      min-height: 36px;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 11px;
+      border: 1px solid rgba(22, 78, 99, 0.16);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 720;
+      white-space: nowrap;
+    }
+
+    .text-button {
+      border-radius: var(--radius);
+    }
+
+    .composer {
+      padding: 10px 14px 12px;
+      background: rgba(247, 248, 251, 0.92);
+      border-top: 1px solid rgba(227, 231, 238, 0.82);
+      backdrop-filter: blur(18px);
+    }
+
+    .followups {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 9px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .followups::-webkit-scrollbar {
+      display: none;
+    }
+
+    .followup {
+      min-height: 36px;
+      flex: 0 0 auto;
+      max-width: 260px;
+      padding: 8px 11px;
+      border: 1px solid rgba(22, 78, 99, 0.16);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 720;
+      white-space: nowrap;
+    }
+
+    .composer-inner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 50px;
+      padding: 6px 6px 6px 14px;
+      border: 1px solid rgba(22, 78, 99, 0.16);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: 0 10px 30px rgba(21, 32, 44, 0.08);
+    }
+
+    .composer input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .send {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 14px;
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      height: 66px;
+      border-top: 1px solid rgba(227, 231, 238, 0.82);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(18px);
+    }
+
+    .tab {
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 4px;
+      background: transparent;
+      color: var(--faint);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .tab.active {
+      color: var(--primary);
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 48px;
+      margin: 0 0 16px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .search svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--muted);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .search input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      color: var(--ink);
+      background: transparent;
+      font-size: 14px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 20px 0 10px;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+
+    .section-head span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .topic {
+      min-height: 92px;
+      padding: 13px;
+      border: 1px solid rgba(227, 231, 238, 0.92);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--soft-shadow);
+      text-align: left;
+    }
+
+    .topic .dot {
+      display: block;
+      width: 34px;
+      height: 5px;
+      margin-bottom: 16px;
+      border-radius: 999px;
+      background: var(--warm);
+    }
+
+    .topic:nth-child(1) {
+      background: linear-gradient(180deg, rgba(214, 122, 99, 0.13) 0%, #ffffff 74%);
+      border-color: rgba(214, 122, 99, 0.24);
+    }
+
+    .topic:nth-child(2) {
+      background: linear-gradient(180deg, rgba(59, 130, 246, 0.12) 0%, #ffffff 74%);
+      border-color: rgba(59, 130, 246, 0.22);
+    }
+
+    .topic:nth-child(2) .dot {
+      background: var(--tech);
+    }
+
+    .topic:nth-child(3) {
+      background: linear-gradient(180deg, rgba(22, 78, 99, 0.11) 0%, #ffffff 74%);
+      border-color: rgba(22, 78, 99, 0.22);
+    }
+
+    .topic:nth-child(3) .dot {
+      background: var(--primary);
+    }
+
+    .topic:nth-child(4) {
+      background: linear-gradient(180deg, rgba(214, 122, 99, 0.09) 0%, #ffffff 74%);
+      border-color: rgba(214, 122, 99, 0.18);
+    }
+
+    .topic:nth-child(4) .dot {
+      background: linear-gradient(90deg, var(--warm), var(--primary));
+    }
+
+    .topic strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .topic span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.38;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .list-item {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      border: 1px solid rgba(227, 231, 238, 0.94);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: var(--soft-shadow);
+      text-align: left;
+    }
+
+    .list-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .list-item strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .list-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .badge {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--primary-soft), var(--tech-soft));
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .settings {
+      display: grid;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .setting {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 48px;
+      align-items: center;
+      padding: 12px 13px;
+      border: 1px solid rgba(227, 231, 238, 0.94);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .setting span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .sheet-backdrop {
+      position: absolute;
+      z-index: 20;
+      inset: 0;
+      display: none;
+      align-items: flex-end;
+      padding: 12px;
+      background: rgba(17, 22, 19, 0.32);
+      backdrop-filter: blur(5px);
+    }
+
+    .sheet-backdrop.active {
+      display: flex;
+    }
+
+    .sheet {
+      width: 100%;
+      max-height: 80%;
+      overflow-y: auto;
+      padding: 18px;
+      border-radius: 24px 24px 20px 20px;
+      background: var(--phone);
+      box-shadow: 0 -18px 50px rgba(17, 22, 19, 0.2);
+    }
+
+    .sheet-handle {
+      width: 44px;
+      height: 4px;
+      margin: 0 auto 16px;
+      border-radius: 999px;
+      background: #d8dbd3;
+    }
+
+    .sheet h2 {
+      margin: 0 0 10px;
+      color: var(--ink);
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    .sheet p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .quote {
+      margin: 14px 0;
+      padding: 13px;
+      border-left: 4px solid var(--primary);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.64;
+    }
+
+    .sheet-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .primary-button {
+      min-height: 42px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 760;
+    }
+
+    .secondary-button {
+      min-height: 42px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 760;
+    }
+
+    @media (max-width: 440px) {
+      .stage {
+        padding: 0;
+      }
+
+      .phone {
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        border-radius: 0;
+      }
+
+      .screen {
+        border-radius: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <section class="phone" aria-label="App 名字（待定）移动端原型">
+      <div class="screen">
+        <div class="status" aria-hidden="true">
+          <span>9:41</span>
+          <span>5G  92%</span>
+        </div>
+
+        <header class="header">
+          <div class="brand">
+            <span class="brand-title" id="headerTitle">App 名字（待定）</span>
+            <span class="brand-subtitle" id="headerSubtitle">基于频道内容的 AI 知识助手</span>
+          </div>
+          <button class="round-button" type="button" aria-label="查看使用边界" data-open="safetySheet">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5"></path><path d="M12 16h.01"></path></svg>
+          </button>
+        </header>
+
+        <div class="content" id="content">
+          <section class="panel active" id="askPanel" aria-label="提问">
+            <div class="quiet-note">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <span>用于理解知识和轻量反思，不提供诊断、治疗、用药或危机干预。</span>
+            </div>
+
+            <div class="intro">
+              <h1>你想理解哪个心理学问题？</h1>
+              <p>我会优先从频道字幕知识库里找答案，并把相关来源展示给你。</p>
+            </div>
+
+            <div class="prompt-strip" aria-label="推荐问题">
+              <button class="prompt" type="button">
+                <strong>关系困惑</strong>
+                <span>为什么我总是在关系里讨好别人？</span>
+              </button>
+              <button class="prompt" type="button">
+                <strong>概念解释</strong>
+                <span>“边界感”到底是什么意思？</span>
+              </button>
+              <button class="prompt" type="button">
+                <strong>情绪理解</strong>
+                <span>如何理解亲密关系里的焦虑感？</span>
+              </button>
+            </div>
+
+            <div class="chat" aria-label="单会话聊天内容">
+              <div class="message user">为什么我总是在关系里讨好别人？</div>
+              <div class="message ai">
+                <strong>可以先从“关系焦虑”和“边界感”两个角度理解。</strong>
+                讨好不一定是性格问题，它有时是一种习惯性的关系策略：通过提前满足别人，来降低被拒绝、被误解或关系破裂的风险。
+                <br><br>
+                我不能判断你是否有某种心理疾病，但可以帮你基于频道内容梳理这个现象。你可以先问自己：我是在表达善意，还是在避免冲突？
+                <div class="source-card">
+                  <div class="source-label">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M4 4v15.5"></path><path d="M6.5 4H20v13H6.5A2.5 2.5 0 0 0 4 19.5"></path></svg>
+                    来自频道内容
+                  </div>
+                  <p>《为什么你总是在关系里讨好别人》12:34 - 14:02，讲到讨好行为背后的关系焦虑。</p>
+                  <div class="source-actions">
+                    <button class="pill-action" type="button" data-open="sourceSheet">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>
+                      展开
+                    </button>
+                    <button class="pill-action" type="button">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 10l5 2-5 2v-4z"></path><path d="M4 6h16v12H4z"></path></svg>
+                      Bilibili
+                    </button>
+                    <button class="pill-action" type="button">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                      收藏
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" id="explorePanel" aria-label="探索">
+            <div class="search">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg>
+              <input aria-label="搜索心理学概念或频道内容" placeholder="搜索：依恋、边界感、内耗">
+            </div>
+
+            <div class="section-head">
+              <h3>热门主题</h3>
+              <span>按问题浏览</span>
+            </div>
+            <div class="topic-grid">
+              <button class="topic" type="button">
+                <span class="dot"></span>
+                <strong>亲密关系</strong>
+                <span>依恋、沟通、冲突和安全感</span>
+              </button>
+              <button class="topic" type="button">
+                <span class="dot"></span>
+                <strong>情绪调节</strong>
+                <span>焦虑、内耗、羞耻和压力</span>
+              </button>
+              <button class="topic" type="button">
+                <span class="dot"></span>
+                <strong>自我价值</strong>
+                <span>讨好、边界、认可和自尊</span>
+              </button>
+              <button class="topic" type="button">
+                <span class="dot"></span>
+                <strong>原生家庭</strong>
+                <span>成长经验和关系模式</span>
+              </button>
+            </div>
+
+            <div class="section-head">
+              <h3>心理学概念</h3>
+              <span>可收藏</span>
+            </div>
+            <div class="list">
+              <button class="list-item" type="button" data-open="conceptSheet">
+                <div class="list-row">
+                  <div>
+                    <strong>边界感</strong>
+                    <span>理解关系中“我可以”和“我不需要”的分界。</span>
+                  </div>
+                  <span class="badge">8 来源</span>
+                </div>
+              </button>
+              <button class="list-item" type="button">
+                <div class="list-row">
+                  <div>
+                    <strong>依恋模式</strong>
+                    <span>从安全感、焦虑和回避理解亲密关系互动。</span>
+                  </div>
+                  <span class="badge">12 来源</span>
+                </div>
+              </button>
+            </div>
+
+            <div class="section-head">
+              <h3>来源索引</h3>
+              <span>跳转观看</span>
+            </div>
+            <div class="list">
+              <button class="list-item" type="button" data-open="sourceSheet">
+                <div class="list-row">
+                  <div>
+                    <strong>《为什么你总是在关系里讨好别人》</strong>
+                    <span>包含：讨好、关系焦虑、边界感、自我价值。</span>
+                  </div>
+                  <span class="badge">B站</span>
+                </div>
+              </button>
+            </div>
+          </section>
+
+          <section class="panel" id="minePanel" aria-label="我的">
+            <div class="quiet-note">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+              <span>V1 只收藏 AI 回答。相关概念和来源会随回答一起保留。</span>
+            </div>
+
+            <div class="list">
+              <button class="list-item" type="button">
+                <div class="list-row">
+                  <div>
+                    <strong>为什么我总是在关系里讨好别人？</strong>
+                    <span>收藏于今天。包含相关概念和 2 个频道来源。</span>
+                  </div>
+                  <span class="badge">AI 回答</span>
+                </div>
+              </button>
+              <button class="list-item" type="button">
+                <div class="list-row">
+                  <div>
+                    <strong>如何区分照顾别人和讨好别人？</strong>
+                    <span>收藏于昨天。包含边界感、关系焦虑等相关内容。</span>
+                  </div>
+                  <span class="badge">AI 回答</span>
+                </div>
+              </button>
+              <button class="list-item" type="button">
+                <div class="list-row">
+                  <div>
+                    <strong>亲密关系里的焦虑感可以怎么理解？</strong>
+                    <span>收藏于 5 月 6 日。包含 3 个频道来源。</span>
+                  </div>
+                  <span class="badge">AI 回答</span>
+                </div>
+              </button>
+            </div>
+
+            <div class="settings">
+              <button class="setting" type="button">反馈 <span>帮助改进回答</span></button>
+              <button class="setting" type="button" data-open="safetySheet">使用边界 <span>诊断与危机说明</span></button>
+              <button class="setting" type="button">隐私说明 <span>聊天与知识库数据</span></button>
+            </div>
+          </section>
+        </div>
+
+        <div class="composer" id="composer">
+          <div class="followups" aria-label="可继续追问的问题">
+            <button class="followup" type="button">如何区分照顾别人和讨好别人？</button>
+            <button class="followup" type="button">怎么练习表达边界？</button>
+            <button class="followup" type="button">这和依恋模式有关吗？</button>
+          </div>
+          <div class="composer-inner">
+            <input aria-label="输入你的问题" placeholder="问一个心理学问题">
+            <button class="send" type="button" aria-label="发送">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 2 11 13"></path><path d="M22 2 15 22l-4-9-9-4 20-7z"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <nav class="tabs" aria-label="主导航">
+          <button class="tab active" type="button" data-tab="askPanel">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path></svg>
+            <span>提问</span>
+          </button>
+          <button class="tab" type="button" data-tab="explorePanel">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg>
+            <span>探索</span>
+          </button>
+          <button class="tab" type="button" data-tab="minePanel">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+            <span>我的</span>
+          </button>
+        </nav>
+
+        <div class="sheet-backdrop" id="safetySheet" role="dialog" aria-modal="true" aria-label="使用边界">
+          <div class="sheet">
+            <div class="sheet-handle"></div>
+            <h2>使用边界</h2>
+            <p>这是基于频道内容的 AI 知识助手，可以帮助你查找概念、理解观点，并获得轻量的自我反思提示。</p>
+            <p>它不提供心理诊断、心理治疗、医疗建议、用药建议或危机干预服务。</p>
+            <p>如果你正在经历强烈痛苦、自伤念头、伤害他人念头或紧急风险，请立即联系当地紧急服务、身边可信任的人或专业机构。</p>
+            <div class="sheet-actions">
+              <button class="primary-button" type="button" data-close>我知道了</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sheet-backdrop" id="sourceSheet" role="dialog" aria-modal="true" aria-label="引用来源">
+          <div class="sheet">
+            <div class="sheet-handle"></div>
+            <h2>引用来源</h2>
+            <p>《为什么你总是在关系里讨好别人》</p>
+            <div class="quote">当一个人很害怕关系里的冲突时，他可能会把“让对方满意”误认为“维持关系安全”。</div>
+            <p><strong>相关片段</strong>：12:34 - 14:02</p>
+            <p><strong>为什么引用</strong>：这段内容解释了讨好行为和关系焦虑之间的关系，和当前问题高度相关。</p>
+            <div class="sheet-actions">
+              <button class="primary-button" type="button">去 Bilibili 查看</button>
+              <button class="secondary-button" type="button" data-close>关闭</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sheet-backdrop" id="conceptSheet" role="dialog" aria-modal="true" aria-label="概念详情">
+          <div class="sheet">
+            <div class="sheet-handle"></div>
+            <h2>边界感</h2>
+            <p>边界感不是冷漠，而是区分“我的责任”和“别人的责任”。它帮助一个人在关系里保持连接，同时不把自己完全交给对方的情绪和期待。</p>
+            <div class="list">
+              <button class="list-item" type="button">
+                <div class="list-row">
+                  <div>
+                    <strong>《亲密关系里为什么要有边界》</strong>
+                    <span>03:10 - 05:22，解释边界和拒绝的关系。</span>
+                  </div>
+                  <span class="badge">来源</span>
+                </div>
+              </button>
+            </div>
+            <div class="sheet-actions">
+              <button class="primary-button" type="button">围绕这个概念提问</button>
+              <button class="secondary-button" type="button" data-close>关闭</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const tabs = document.querySelectorAll("[data-tab]");
+    const panels = document.querySelectorAll(".panel");
+    const content = document.getElementById("content");
+    const composer = document.getElementById("composer");
+    const headerTitle = document.getElementById("headerTitle");
+    const headerSubtitle = document.getElementById("headerSubtitle");
+    const headerText = {
+      askPanel: ["App 名字（待定）", "基于频道内容的 AI 知识助手"],
+      explorePanel: ["探索", "搜索知识库"],
+      minePanel: ["我的", "收藏的回答"]
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((item) => item.classList.remove("active"));
+        panels.forEach((panel) => panel.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById(tab.dataset.tab).classList.add("active");
+        composer.style.display = tab.dataset.tab === "askPanel" ? "block" : "none";
+        headerTitle.textContent = headerText[tab.dataset.tab][0];
+        headerSubtitle.textContent = headerText[tab.dataset.tab][1];
+        content.scrollTop = 0;
+      });
+    });
+
+    document.querySelectorAll("[data-open]").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.getElementById(button.dataset.open).classList.add("active");
+      });
+    });
+
+    document.querySelectorAll("[data-close]").forEach((button) => {
+      button.addEventListener("click", () => {
+        button.closest(".sheet-backdrop").classList.remove("active");
+      });
+    });
+
+    document.querySelectorAll(".sheet-backdrop").forEach((backdrop) => {
+      backdrop.addEventListener("click", (event) => {
+        if (event.target === backdrop) {
+          backdrop.classList.remove("active");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
