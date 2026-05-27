@@ -83,6 +83,13 @@
       background: var(--phone);
     }
 
+    .app-shell {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      flex-direction: column;
+    }
+
     .status {
       display: flex;
       align-items: center;
@@ -196,6 +203,296 @@
       stroke: currentColor;
       stroke-width: 2;
       fill: none;
+    }
+
+    .auth-screen {
+      position: absolute;
+      z-index: 30;
+      inset: 34px 0 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 28px 16px 0;
+      background:
+        linear-gradient(180deg, #f7faf9 0%, #eef5f4 44%, #f8fafc 100%);
+    }
+
+    .screen.authenticated .auth-screen {
+      display: none;
+    }
+
+    .auth-brand {
+      margin-top: 34px;
+    }
+
+    .auth-mark {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      border-radius: 18px;
+      background: linear-gradient(135deg, #0f3f4e 0%, #1f7a75 100%);
+      color: #fff;
+      box-shadow: 0 18px 34px rgba(22, 78, 99, 0.18);
+    }
+
+    .auth-mark svg {
+      width: 26px;
+      height: 26px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .auth-brand h1 {
+      margin: 0 0 8px;
+      color: var(--ink);
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1.06;
+    }
+
+    .auth-brand p {
+      max-width: 330px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .auth-card {
+      display: grid;
+      gap: 12px;
+      margin: auto -16px 0;
+      padding: 18px 16px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.84);
+      border-radius: 28px 28px 0 0;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 -16px 46px rgba(21, 32, 44, 0.1);
+      backdrop-filter: blur(18px);
+    }
+
+    .auth-card h2 {
+      margin: 0 0 2px;
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    .auth-methods {
+      display: grid;
+      gap: 10px;
+    }
+
+    .auth-method {
+      display: flex;
+      min-height: 56px;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 12px;
+      border: 1px solid rgba(22, 78, 99, 0.1);
+      border-radius: 18px;
+      background: #f6f8fa;
+      text-align: left;
+    }
+
+    .auth-method:disabled {
+      cursor: not-allowed;
+      opacity: 0.52;
+    }
+
+    .auth-method.primary {
+      border-color: rgba(7, 193, 96, 0.24);
+      background: #07c160;
+      color: #fff;
+    }
+
+    .method-icon {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--primary);
+    }
+
+    .auth-method.primary .method-icon {
+      background: rgba(255, 255, 255, 0.16);
+      color: #fff;
+    }
+
+    .method-icon svg {
+      width: 19px;
+      height: 19px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .method-copy {
+      display: block;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .method-copy strong {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .method-badge {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 11px;
+      font-weight: 760;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 740;
+    }
+
+    .field-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 50px;
+      padding: 0 14px;
+      border: 1px solid rgba(22, 78, 99, 0.1);
+      border-radius: 18px;
+      background: #f6f8fa;
+    }
+
+    .field-control:focus-within {
+      border-color: rgba(22, 78, 99, 0.48);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(22, 78, 99, 0.08);
+    }
+
+    .field-control input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--ink);
+      font-size: 15px;
+    }
+
+    .field-control input::placeholder {
+      color: var(--faint);
+    }
+
+    .password-toggle {
+      min-width: 44px;
+      min-height: 44px;
+      margin-right: -10px;
+      border-radius: 14px;
+      background: transparent;
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 760;
+    }
+
+    .field-error {
+      color: #b42318;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .field-error:empty {
+      display: none;
+    }
+
+    .field.has-error .field-control {
+      border-color: rgba(180, 35, 24, 0.62);
+      box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.08);
+    }
+
+    .auth-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .checkbox {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkbox input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+    }
+
+    .link-button {
+      min-height: 44px;
+      padding: 0;
+      background: transparent;
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 760;
+    }
+
+    .auth-submit {
+      min-height: 54px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #123f4e 0%, #176b67 100%);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 780;
+      box-shadow: 0 16px 30px rgba(22, 78, 99, 0.18);
+    }
+
+    .auth-submit:focus-visible,
+    .link-button:focus-visible,
+    .password-toggle:focus-visible,
+    .checkbox input:focus-visible {
+      outline: 3px solid rgba(59, 130, 246, 0.28);
+      outline-offset: 2px;
+    }
+
+    .auth-status {
+      color: var(--primary);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .auth-status:empty {
+      display: none;
+    }
+
+    .auth-boundary-link {
+      min-height: 40px;
+      padding: 0;
+      background: transparent;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 760;
     }
 
     .intro {
@@ -754,6 +1051,58 @@
           <span>5G  92%</span>
         </div>
 
+        <section class="auth-screen" aria-label="登录">
+          <div class="auth-brand">
+            <div class="auth-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 20s7-4.5 7-10V5l-7-3-7 3v5c0 5.5 7 10 7 10z"></path><path d="M9.5 12.5 11 14l3.5-4"></path></svg>
+            </div>
+            <h1>欢迎回来</h1>
+            <p>登录后继续查看来源、收藏回答和反思记录。</p>
+          </div>
+
+          <form class="auth-card" id="loginForm" novalidate>
+            <h2>选择登录方式</h2>
+            <div class="auth-methods" aria-label="登录方式">
+              <button class="auth-method primary" id="wechatLogin" type="button">
+                <span class="method-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M8.5 14.5c-3 0-5.5-2-5.5-4.5S5.5 5.5 8.5 5.5s5.5 2 5.5 4.5-2.5 4.5-5.5 4.5z"></path><path d="M13 11.5c.8-.4 1.8-.6 2.8-.6 2.9 0 5.2 1.8 5.2 4s-2.3 4-5.2 4c-.7 0-1.4-.1-2-.3l-2.1 1 .5-1.8c-1-.7-1.6-1.7-1.6-2.9"></path><path d="M6.8 9.4h.01"></path><path d="M10.2 9.4h.01"></path></svg>
+                </span>
+                <span class="method-copy">
+                  <strong>微信登录</strong>
+                </span>
+                <span class="method-badge">预留</span>
+              </button>
+
+              <button class="auth-method" id="emailEntry" type="button" disabled>
+                <span class="method-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"></path><path d="m4 7 8 6 8-6"></path></svg>
+                </span>
+                <span class="method-copy">
+                  <strong>邮箱登录</strong>
+                </span>
+                <span class="method-badge">暂未开放</span>
+              </button>
+            </div>
+
+            <div class="auth-status" id="authStatus" role="status" aria-live="polite"></div>
+            <button class="auth-boundary-link" type="button" data-open="authSafetySheet">查看使用边界</button>
+          </form>
+
+          <div class="sheet-backdrop" id="authSafetySheet" role="dialog" aria-modal="true" aria-label="使用边界">
+            <div class="sheet">
+              <div class="sheet-handle"></div>
+              <h2>使用边界</h2>
+              <p>这是基于频道内容的 AI 知识助手，可以帮助你查找概念、理解观点，并获得轻量的自我反思提示。</p>
+              <p>它不提供心理诊断、心理治疗、医疗建议、用药建议或危机干预服务。</p>
+              <p>如果你正在经历强烈痛苦、自伤念头、伤害他人念头或紧急风险，请立即联系当地紧急服务、身边可信任的人或专业机构。</p>
+              <div class="sheet-actions">
+                <button class="primary-button" type="button" data-close>我知道了</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="app-shell" id="appShell" aria-hidden="true" inert>
         <header class="header">
           <div class="brand">
             <span class="brand-title" id="headerTitle">App 名字（待定）</span>
@@ -1021,11 +1370,17 @@
             </div>
           </div>
         </div>
+        </div>
       </div>
     </section>
   </main>
 
   <script>
+    const screen = document.querySelector(".screen");
+    const appShell = document.getElementById("appShell");
+    const loginForm = document.getElementById("loginForm");
+    const wechatLogin = document.getElementById("wechatLogin");
+    const authStatus = document.getElementById("authStatus");
     const tabs = document.querySelectorAll("[data-tab]");
     const panels = document.querySelectorAll(".panel");
     const content = document.getElementById("content");
@@ -1037,6 +1392,21 @@
       explorePanel: ["探索", "搜索知识库"],
       minePanel: ["我的", "收藏的回答"]
     };
+
+    wechatLogin.addEventListener("click", () => {
+      screen.classList.add("authenticated");
+      appShell.removeAttribute("aria-hidden");
+      appShell.removeAttribute("inert");
+      content.scrollTop = 0;
+    });
+
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      screen.classList.add("authenticated");
+      appShell.removeAttribute("aria-hidden");
+      appShell.removeAttribute("inert");
+      content.scrollTop = 0;
+    });
 
     tabs.forEach((tab) => {
       tab.addEventListener("click", () => {
